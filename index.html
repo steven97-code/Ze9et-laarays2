@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>زنقة لعرايس - متجر متطور</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff0f5;
+      direction: rtl;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #e91e63;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .product {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+      min-height: 350px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product img {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      background: #f0f0f0;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #388E3C;
+    }
+    #cart, #checkout-form {
+      background: #fff;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>زنقة لعرايس</h1>
+    <p>فساتين - إكسسوارات - كل ما تحتاجينه</p>
+  </header>  <div class="container">
+    <div class="product">
+      <img alt="صورة المنتج">
+      <h3>اسم المنتج</h3>
+      <p>السعر: دج</p>
+      <button class="btn" onclick="addToCart('اسم المنتج', 0)">إضافة للسلة</button>
+    </div>
+    <div class="product">
+      <img alt="صورة المنتج">
+      <h3>اسم المنتج</h3>
+      <p>السعر: دج</p>
+      <button class="btn" onclick="addToCart('اسم المنتج', 0)">إضافة للسلة</button>
+    </div>
+    <div class="product">
+      <img alt="صورة المنتج">
+      <h3>اسم المنتج</h3>
+      <p>السعر: دج</p>
+      <button class="btn" onclick="addToCart('اسم المنتج', 0)">إضافة للسلة</button>
+    </div>
+  </div>  <div id="cart">
+    <h2>سلة المشتريات</h2>
+    <ul id="cart-items"></ul>
+    <p><strong>المجموع:</strong> <span id="total">0</span> دج</p>
+    <button class="btn" onclick="showCheckout()">الدفع</button><form id="checkout-form">
+  <h3>معلومات الزبونة</h3>
+  <input type="text" id="firstName" placeholder="الاسم" required>
+  <input type="text" id="lastName" placeholder="اللقب" required>
+  <select id="paymentMethod" required>
+    <option value="ccp">CCP</option>
+    <option value="baridimob">BaridiMob</option>
+  </select>
+  <p>رقم الحساب: <span id="accountNumber">00799999002430886360</span> <button type="button" onclick="copyAccount()">نسخ</button></p>
+  <input type="file" id="paymentProof" required>
+  <select id="delivery" required>
+    <option value="home">التوصيل إلى المنزل</option>
+    <option value="pickup">استلام من المتجر</option>
+  </select>
+  <input type="text" id="address" placeholder="العنوان (إذا التوصيل)">
+  <button type="submit" class="btn">تأكيد الطلب</button>
+</form>
+
+  </div>  <script>
+    let cart = [];
+    let total = 0;
+
+    function addToCart(product, price) {
+      cart.push({product, price});
+      total += price;
+      displayCart();
+    }
+
+    function displayCart() {
+      let cartList = document.getElementById('cart-items');
+      cartList.innerHTML = '';
+      cart.forEach(item => {
+        let li = document.createElement('li');
+        li.textContent = `${item.product} - ${item.price} دج`;
+        cartList.appendChild(li);
+      });
+      document.getElementById('total').textContent = total;
+    }
+
+    function showCheckout() {
+      document.getElementById('checkout-form').style.display = 'block';
+    }
+
+    function copyAccount() {
+      navigator.clipboard.writeText(document.getElementById('accountNumber').textContent);
+      alert('تم نسخ رقم الحساب');
+    }
+
+    document.getElementById('checkout-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('✅ تم إرسال طلبك بنجاح! سيتم التواصل معك لتأكيد الدفع والتوصيل.');
+      cart = [];
+      total = 0;
+      displayCart();
+      document.getElementById('checkout-form').reset();
+      document.getElementById('checkout-form').style.display = 'none';
+    });
+  </script></body>
+    </html>
